@@ -7,12 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="./html5-qrcode.min.js"></script>
     <script src="./jsrsasign-latest-all-min.js"></script>
-    <title>eesztgov.hu</title>
+    <title>eesztgov.hu | Nem hivatalos ellenőző oldal</title>
 </head>
 
 <body>
-    <div id="qr-reader" style="width:500px"></div>
-    <div id="qr-reader-results"></div>
+        <h1 class="center">Nem hivatalos digitális vakcinaigazolvány ellenőrző oldal</h1>
+        <p class="center">!!! Az alkalmazás nem küld el semmilyen adatot külső szerver felé, minden ellenörzéshez szükséges műveletet lokálisan, a böngészőben végez !!!</p>
+        <p class="center">Csak az alkalmazás által generált QR kóddal működik, a sima plasztik kártyával nem!</p>
+        <p class="center">Nem vagyok jó UI-ban, bocsi, de ezzel kapcsolatban várom a PR-okat. :-)</p>
+        <p class="center"><a href="https://github.com/D3vl0per/eesztgov.hu">A kód elérhető a GitHub-on</a></p>
+        <div class="center" id="qr-reader" style="width:500px"></div>
+        <div class="center" id="qr-reader-results"></div>
+    </div>
     <script>
         eesztCert =
             `
@@ -60,6 +66,12 @@ sRtJFDmaaicq7rvVjhwpXhNaMZGeNgf/9nfveEiW9zp/Ily6slxryDzM/L48fzkx
         html5QrcodeScanner.render(onScanSuccess);
 
     </script>
+    <href >
 </body>
-
+<style>
+.center {
+    margin: auto;
+    text-align: center;
+}
+</style>
 </html>
