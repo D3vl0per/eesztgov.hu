@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./html5-qrcode.min.js"></script>
+    <script src="./jsrsasign-latest-all-min.js"></script>
+    <title>eesztgov.hu</title>
+</head>
+
+<body>
+    <div id="qr-reader" style="width:500px"></div>
+    <div id="qr-reader-results"></div>
+    <script>
+        eesztCert =
+            `
+-----BEGIN CERTIFICATE-----
+MIIDRjCCAi6gAwIBAgIEYBP1EDANBgkqhkiG9w0BAQsFADBXMRYwFAYDVQQDDA1F
+RVNaVCBQUk9EIENBMQ4wDAYDVQQKDAVFRVNaVDENMAsGA1UECwwEUFJPRDERMA8G
+A1UEBwwIQnVkYXBlc3QxCzAJBgNVBAYTAkhVMB4XDTIxMDEyOTExNDQxNloXDTQx
+MDEyOTExNDQxNlowYjELMAkGA1UEBhMCSFUxETAPBgNVBAcMCEJ1ZGFwZXN0MQ4w
+DAYDVQQKDAVFRVNaVDEYMBYGA1UECwwPRUVTWlRfUFJPRF9TSUdOMRYwFAYDVQQD
+DA1DT1ZJRFBBU1MgSldUMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA
+o+/WqiqmuhmaoT7sXmuVbVPnxsyZ4pThxxcYFvNzIDcWSOPcu6TlW6XcpaCbr4Uz
+407uJTHzbZBOIpLBMGq9OIEKdhCN/P4kjaNKNkB9ZVeJ6BvEodq1HiA5nEMlWYuj
+6DGjv/EaQavhEb5h/E/Lggox+299U+I7uoO2yAM4eIF6JeUuRwdj+qXZXuHpTdTG
+7WNstDI+aP44PjinQC3VoOQILL4DDArw42J+sdLxRZQf/bL78Lkicld4DdvmkRwB
+/AybgKE5UP1wVe/wd/msV9OBzxU6DsRp2cQZUR4O6s7T68WfhSg8VOss4X0HLOy1
+BHmXEsl25JHEEjE0IVSQswIDAQABow8wDTALBgNVHQ8EBAMCB4AwDQYJKoZIhvcN
+AQELBQADggEBAH+kkNy5q4b2puBfXJTw/VOuQEqbFfe1H8wWaT+XJE+D2Lpvc5xZ
+OBFN6TFkjlHjELmFWTDLMHArDGsno9hyiMph3uej5zrnFNeP81TD0MqufoO0WDcL
+sRtJFDmaaicq7rvVjhwpXhNaMZGeNgf/9nfveEiW9zp/Ily6slxryDzM/L48fzkx
+/k9NavgzS6c5QKyCEL+nD/aiFbvh47k5Rgv2nGfpBbxIwCAPfXecXhXSPi+GYpKN
+4rNTPERiqj0nCatTZdeYJgypwyViLMRlgCUieW/371r4x5yCRIu0I2/DJ0yRh+kY
+2SdNwY0reqhv3sKMuHbQiWVaDHTgXraYfyY=
+-----END CERTIFICATE-----
+        `
+        var pubkey = KEYUTIL.getKey(eesztCert);
+
+        var resultContainer = document.getElementById('qr-reader-results');
+        var lastResult, countResults = 0;
+
+        resultContainer.innerHTML = `<div>Érvényes?</div>`;
+        function onScanSuccess(qrCodeMessage) {
+            if (qrCodeMessage !== lastResult) {
+                ++countResults;
+                lastResult = qrCodeMessage;
+                isValid = KJUR.jws.JWS.verifyJWT(qrCodeMessage, pubkey, {alg: ['RS256']})
+                if (isValid) {
+                    resultContainer.innerHTML = `<div>Érvényes? Igen</div>`;
+                } else {
+                    resultContainer.innerHTML = `<div>Érvényes? Nem</div>`;
+                }
+                console.log(isValid)
+            }
+        }
+        var html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", { fps: 10, qrbox: 250 });
+        html5QrcodeScanner.render(onScanSuccess);
+
+    </script>
+</body>
+
+</html>
