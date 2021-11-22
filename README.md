@@ -1,4 +1,5 @@
-# eesztgov.hu | Nem hivatalos digitális igazolvány ellenőrző oldal
+# A weboldal nem működik, mivel nem tetszett a fed-nek a domain. Sokáig élt legalább. 
+## eesztgov.hu | Nem hivatalos digitális igazolvány ellenőrző oldal
 Low-effort, backend nélküli ellenörző weboldal az digitális vakcinaigazoláshoz  
 
 Főbb funkciók:
